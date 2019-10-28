@@ -10,14 +10,14 @@ namespace Logic
         public int Age { get; set; }
         public int Weight { get; set; }
         public int Height { get; set; }
-        public bool Gender { get; set; }
+        public string Gender { get; set; }
 
         public User()
         {
 
         }
 
-        public User(int id, string name, int age, int weight, int height, bool gender)
+        public User(int id, string name, int age, int weight, int height, string gender)
         {
             Id = id;
             Name = name;
@@ -30,6 +30,11 @@ namespace Logic
         public void Update(string name)
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return Name + " " + Age + " " + Weight + " " + Height + " " + Gender;
         }
     }
 }

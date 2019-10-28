@@ -4,8 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
+    <ProjectReference Include="..\Data\DataLayer.csproj" />
+    <ProjectReference Include="..\Logic\LogicLayer.csproj" />
   </ItemGroup>
 
 </Project>
