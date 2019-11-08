@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ILayer\ILayer.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
 </Project>

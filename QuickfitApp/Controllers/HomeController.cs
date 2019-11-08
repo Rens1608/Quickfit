@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QuickfitApp.Models;
-using Logic;
+using Models;
 
 namespace QuickfitApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly User user = new User(1, "Rens", 18, 65, 185, "male");
+        User user = new User();
 
         public HomeController(ILogger<HomeController> logger)
         {

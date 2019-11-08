@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickfitApp", "QuickfitApp\QuickfitApp.csproj", "{817E8FA0-4BF1-4CB4-B997-2F3CFFEC3B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "Logic\LogicLayer.csproj", "{C18FD0D7-2F87-4737-B039-20CF50E01F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "Logic\LogicLayer.csproj", "{C18FD0D7-2F87-4737-B039-20CF50E01F83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "Data\DataLayer.csproj", "{6CAD14AB-BD68-4BAC-A4CF-28EB6256A3CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "Data\DataLayer.csproj", "{6CAD14AB-BD68-4BAC-A4CF-28EB6256A3CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ILayer", "ILayer\ILayer.csproj", "{902B05FD-4329-47D6-AE0F-D4927DFE0203}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ILayer", "ILayer\ILayer.csproj", "{902B05FD-4329-47D6-AE0F-D4927DFE0203}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{8AF9B8E6-161A-4356-9B85-D1D0F5ED2BDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factory", "Factory\Factory.csproj", "{67C8E3C9-A470-4ACD-BAC3-74E87DBE57D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{902B05FD-4329-47D6-AE0F-D4927DFE0203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{902B05FD-4329-47D6-AE0F-D4927DFE0203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{902B05FD-4329-47D6-AE0F-D4927DFE0203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF9B8E6-161A-4356-9B85-D1D0F5ED2BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF9B8E6-161A-4356-9B85-D1D0F5ED2BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF9B8E6-161A-4356-9B85-D1D0F5ED2BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF9B8E6-161A-4356-9B85-D1D0F5ED2BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C8E3C9-A470-4ACD-BAC3-74E87DBE57D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C8E3C9-A470-4ACD-BAC3-74E87DBE57D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C8E3C9-A470-4ACD-BAC3-74E87DBE57D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C8E3C9-A470-4ACD-BAC3-74E87DBE57D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

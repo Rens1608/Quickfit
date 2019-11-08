@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 using ILayer;
-using Logic;
+using Models;
 
 namespace LogicLayer
 {
-    class UserContainer : IUserContainerDAL
+    class UserContainer
     {
-        User user = new User();
-        public void Add(string userName)
+        public void Add(User userModel)
         {
             throw new NotImplementedException();
         }
 
         public void Remove(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetById()
         {
             throw new NotImplementedException();
         }

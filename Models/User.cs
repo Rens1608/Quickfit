@@ -1,9 +1,8 @@
 ﻿using System;
-using ILayer;
 
-namespace Logic
+namespace Models
 {
-    public class User : IUserDAL
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,11 +10,6 @@ namespace Logic
         public int Weight { get; set; }
         public int Height { get; set; }
         public string Gender { get; set; }
-
-        public User()
-        {
-
-        }
 
         public User(int id, string name, int age, int weight, int height, string gender)
         {
@@ -27,14 +21,18 @@ namespace Logic
             Gender = gender;
         }
 
-        public void Update(string name)
+        public User(string name, int age, int weight, int height, string gender)
         {
-            throw new NotImplementedException();
+            Name = name;
+            Age = age;
+            Weight = weight;
+            Height = height;
+            Gender = gender;
         }
 
-        public override string ToString()
+        public User()
         {
-            return Name + " " + Age + " " + Weight + " " + Height + " " + Gender;
+
         }
     }
 }
