@@ -16,7 +16,7 @@ namespace Factory
                 IExerciseDAL exerciseDAL = new ExerciseDAL();
             }
         }
-        public static IExerciseDAL CreateExerciseContainerDAL
+        public static IExerciseContainerDAL CreateExerciseContainerDAL
         {
             get
             {

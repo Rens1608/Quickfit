@@ -9,16 +9,23 @@ using Models;
 namespace DataLayer
 {
     public class ExerciseDAL : IExerciseContainerDAL, IExerciseDAL
-    {
-        public void Add(Exercise exercise)
+    { 
+        public void Add(ExerciseModel exercise)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                connection.Open();
+                string query = @"insert into [Exercises] (Name,Weight,Repetitions,Skillevel) values ('" + exercise.Name + "','" +
+                               exercise.Weight + "''" + exercise.Repetitions + "''" + exercise.Level + "')";
+                SqlCommand qry = new SqlCommand(query, connection);
+                qry.ExecuteNonQuery();
+            }
         }
 
-        public List<Exercise> GetAll()
+        public List<ExerciseModel> GetAll()
         {
-            List<Exercise> tempExercises = new List<Exercise>();
-            using (SqlConnection connection = new SqlConnection(Connection.GetConnectionstring()))
+            List<ExerciseModel> tempExercises = new List<ExerciseModel>();
+            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
@@ -29,7 +36,7 @@ namespace DataLayer
                 using (SqlDataReader userReader = dataCommand.ExecuteReader())
                 {
                     userReader.Read();
-                    Exercise tempExercise = new Exercise(Convert.ToInt32(userReader["ExerciseId"]), userReader["Name"].ToString(), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Repetition"]), userReader["Skillevel"].ToString());
+                    ExerciseModel tempExercise = new ExerciseModel(Convert.ToInt32(userReader["ExerciseId"]), userReader["Name"].ToString(), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Repetition"]), userReader["Skillevel"].ToString());
                     tempExercises.Add(tempExercise);
                     userReader.Close();
                     return tempExercises;
@@ -37,29 +44,61 @@ namespace DataLayer
             }
         }
 
-        public void Remove(Exercise exercise)
+        public void Remove(ExerciseModel exercise)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateLevel()
+        public void UpdateLevel(int id, string level)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                conn.Open();
+                var query = @"update Exercise set Level='" + level + "' where Id ='" + id + "'";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void UpdateName()
+        public void UpdateName(int id, string name)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                conn.Open();
+                var query = @"update Exercise set Name='" + name + "' where Id ='" + id + "'";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void UpdateRepetitions()
+        public void UpdateRepetitions(int id, int repetitions)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                conn.Open();
+                var query = @"update Exercise set Repetitions='" + repetitions + "' where Id ='" + id + "'";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void UpdateWeight()
+        public void UpdateWeight(int id, int weight)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                conn.Open();
+                var query = @"update Exercise set Weight='" + weight + "' where Id ='" + id + "'";
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

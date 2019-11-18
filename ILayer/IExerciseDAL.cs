@@ -6,9 +6,9 @@ namespace ILayer
 {
     public interface IExerciseDAL
     {
-        void UpdateName();
-        void UpdateWeight();
-        void UpdateRepetitions();
-        void UpdateLevel();
+        void UpdateName( int id, string name);
+        void UpdateWeight( int id, int weight);
+        void UpdateRepetitions(int id, int repetitions);
+        void UpdateLevel(int id, string level);
     }
 }

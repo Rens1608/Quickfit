@@ -1,90 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using LogicLayer;
 
 namespace QuickfitApp.Controllers
 {
     public class ExerciseController : Controller
     {
+        readonly ExerciseContainer exerciseContainer = new ExerciseContainer();
         // GET: Exercise
+
         public ActionResult Index()
         {
-            return View();
+            var exerciseList = exerciseContainer.GetAll();
+            return View(exerciseList);
         }
 
-        // GET: Exercise/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Edit(int id)
         {
-            return View();
+            var exercise = exerciseContainer.GetAll();
+            return View(exercise);
         }
 
-        // GET: Exercise/Create
+        [HttpPost]
+        public ActionResult Edit(ExerciseModel exercise)
+        {
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Exercise/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ExerciseModel exercise)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                exerciseContainer.Add(exercise);
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Exercise/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Exercise/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Exercise/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Exercise/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            else
             {
                 return View();
             }
