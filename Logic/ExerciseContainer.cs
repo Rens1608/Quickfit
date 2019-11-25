@@ -8,19 +8,19 @@ namespace LogicLayer
 {
     public class ExerciseContainer
     {
-        public Exercise GetById(int id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            ExerciseFactory.CreateExerciseContainerDAL().Delete(id);
         }
 
-        public void Add(ExerciseModel exercise)
+        public void Add(ExerciseModel exercise, int workoutId)
         {
-            ExerciseFactory.CreateExerciseContainerDAL.Add(exercise);
+            ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, workoutId);
         }
 
-        public IList<ExerciseModel> GetAll()
+        public List<ExerciseModel> GetAll()
         {
-            return ExerciseFactory.CreateExerciseContainerDAL.GetAll();
+            return ExerciseFactory.CreateExerciseContainerDAL().GetAll();
         }
     }
 }

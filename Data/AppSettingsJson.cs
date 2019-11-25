@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 
 namespace DataLayer
 {
@@ -11,15 +9,14 @@ namespace DataLayer
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             return builder.Build();
         }
 
         public static string GetConnectionstring()
         {
-            var appSettingsJson = AppSettingsJson.GetAppSettings();
-            var connectionString = appSettingsJson["DatabaseSettings:ConnectionString"];
-            return connectionString;
+            var configuration = GetAppSettings();
+            return configuration.GetSection("DatabaseSettings").GetSection("ConnectionString").Value;
         }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model Models.WorkoutModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Skillevel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Skillevel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CaloriesBurned)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CaloriesBurned)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Exercises)
+        </dt>
+        <dd class="col-sm-10">
+            <partial>
+                @Html.Partial("Exercises", Model)
+            </partial>
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>

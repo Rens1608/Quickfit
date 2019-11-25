@@ -8,7 +8,7 @@ namespace LogicLayer
 {
     class UserContainer
     {
-        public void Add(User userModel)
+        public void Add(UserModel userModel)
         {
             throw new NotImplementedException();
         }
@@ -18,12 +18,12 @@ namespace LogicLayer
             throw new NotImplementedException();
         }
 
-        public List<User> GetAll()
+        public List<UserModel> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public User GetById()
+        public UserModel GetById()
         {
             throw new NotImplementedException();
         }

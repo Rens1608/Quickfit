@@ -5,35 +5,37 @@ using System.Text;
 namespace Models
 {
     public enum Category { Bodybuilding, Powerlifting, Weightloss, Calisthenics}
-    public class Workout
+    public class WorkoutModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Skillevel Skillevel { get; set; }
+        public string Skillevel { get; set; }
         public int Time { get; set; }
         public int CaloriesBurned { get; set; }
-        public Category category { get; set; }
+        public string Category { get; set; }
+        public List<ExerciseModel> Exercises { get; set; }
 
-        public Workout(int id, string name, Skillevel skillevel, int time, int caloriesBurned, Category category)
+        public WorkoutModel(int id, string name, string skillevel, int time, int caloriesBurned, string category)
         {
             Id = id;
             Name = name;
             Skillevel = skillevel;
             Time = time;
             CaloriesBurned = caloriesBurned;
-            this.category = category;
+            Category = category;
         }
 
-        public Workout(string name, Skillevel skillevel, int time, int caloriesBurned, Category category)
+        public WorkoutModel(string name, string skillevel, int time, int caloriesBurned, string category, List<ExerciseModel> exercises)
         {
             Name = name;
             Skillevel = skillevel;
             Time = time;
             CaloriesBurned = caloriesBurned;
-            this.category = category;
+            Category = category;
+            Exercises = exercises;
         }
 
-        public Workout()
+        public WorkoutModel()
         {
 
         }

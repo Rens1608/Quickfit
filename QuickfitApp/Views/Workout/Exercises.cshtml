@@ -1,32 +1,21 @@
-﻿@model IEnumerable<Models.ExerciseModel>
+﻿@model Models.WorkoutModel
 
-@{
-    ViewData["Title"] = "Exercises";
-}
 
-<h1>View</h1>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <p>
+        @Html.ActionLink("Create new", "AddExerciseToWorkout", new { id = Model.Id })
+    </p>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Exercises.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                @Html.DisplayNameFor(model => model.Exercises.First().Repetitions)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Repetitions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Level)
+                @Html.DisplayNameFor(model => model.Exercises.First().Level)
             </th>
             <th></th>
         </tr>
@@ -34,20 +23,14 @@
     @if (Model != null)
     {
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Exercises)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Weight)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Repetitions)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Level)
@@ -60,4 +43,4 @@
             }
         </tbody>
     }
-    </table>
+</table>

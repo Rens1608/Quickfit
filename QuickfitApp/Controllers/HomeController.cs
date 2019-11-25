@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QuickfitApp.Models;
 using Models;
+using DataLayer;
 
 namespace QuickfitApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        User user = new User();
+        UserModel user = new UserModel() { Name = "Rens", Age = 18, Weight = 65, Height = 185, Gender = "Male" };
 
         public HomeController(ILogger<HomeController> logger)
         {

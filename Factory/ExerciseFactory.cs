@@ -5,27 +5,15 @@ namespace Factory
 {
     public class ExerciseFactory
     {
-        public static IExerciseDAL CreateExerciseDAL
+        public static IExerciseDAL CreateExerciseDAL()
         {
-            get
-            {
-                return CreateExerciseDAL;
-            }
-            set
-            {
-                IExerciseDAL exerciseDAL = new ExerciseDAL();
-            }
+            IExerciseDAL exerciseDAL = new ExerciseDAL();
+            return exerciseDAL;
         }
-        public static IExerciseContainerDAL CreateExerciseContainerDAL
+        public static IExerciseContainerDAL CreateExerciseContainerDAL()
         {
-            get
-            {
-                return CreateExerciseContainerDAL;
-            }
-            set
-            {
-                IExerciseContainerDAL exerciseDAL = new ExerciseDAL();
-            }
+            IExerciseContainerDAL exerciseContainerDAL = new ExerciseDAL();
+            return exerciseContainerDAL;
         }
     }
 }

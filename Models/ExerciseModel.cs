@@ -11,30 +11,29 @@ namespace Models
         public string Name { get; set; }
         public int Weight { get; set; }
         public int Repetitions { get; set; }
+        public string Date { get; set; }
         public string Level { get; set; }
-
-        public List<ExerciseModel> exercises = new List<ExerciseModel>() { 
-            new ExerciseModel{Id = 1, Name = "Deadlift", Weight = 130, Repetitions = 2, Level = "Intermediate"}
-        };
+        public bool InWorkout { get; set; }
             
         public ExerciseModel()
         {
 
         }
 
-        public ExerciseModel(int id, string name, int weight, int repetitions, string level)
+        public ExerciseModel(int id, string name, int weight, int repetitions, string date, string level, bool inWorkout)
         {
             Id = id;
             Name = name;
             Weight = weight;
             Repetitions = repetitions;
+            Date = date;
             Level = level;
+            InWorkout = inWorkout;
         }
 
-        public ExerciseModel(string name, int weight, int repetitions, string level)
+        public ExerciseModel(string name, int repetitions, string level)
         {
             Name = name;
-            Weight = weight;
             Repetitions = repetitions;
             Level = level;
         }

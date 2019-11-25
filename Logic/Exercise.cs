@@ -8,21 +8,9 @@ namespace LogicLayer
 {
     public class Exercise
     {
-        public void UpdateName(int id, string name)
+        public void UpdateExercise(int id, string name, int weight, int repetitions, string skillevel)
         {
-            ExerciseFactory.CreateExerciseDAL.UpdateName(id, name);
-        }
-        public void UpdateWeight(int id, int weight)
-        {
-            ExerciseFactory.CreateExerciseDAL.UpdateWeight(id, weight);
-        }
-        public void UpdateRepetitions(int id, int repetitions)
-        {
-            ExerciseFactory.CreateExerciseDAL.UpdateRepetitions(id, repetitions);
-        }
-        public void UpdateLevel (int id, string level)
-        {
-            ExerciseFactory.CreateExerciseDAL.UpdateLevel(id, level);
+            ExerciseFactory.CreateExerciseDAL().UpdateExercise(id, name, weight, repetitions, skillevel);
         }
     }
 }

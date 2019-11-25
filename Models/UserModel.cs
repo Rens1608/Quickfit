@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class User
+    public class UserModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,7 +11,7 @@ namespace Models
         public int Height { get; set; }
         public string Gender { get; set; }
 
-        public User(int id, string name, int age, int weight, int height, string gender)
+        public UserModel(int id, string name, int age, int weight, int height, string gender)
         {
             Id = id;
             Name = name;
@@ -21,7 +21,7 @@ namespace Models
             Gender = gender;
         }
 
-        public User(string name, int age, int weight, int height, string gender)
+        public UserModel(string name, int age, int weight, int height, string gender)
         {
             Name = name;
             Age = age;
@@ -30,7 +30,7 @@ namespace Models
             Gender = gender;
         }
 
-        public User()
+        public UserModel()
         {
 
         }
