@@ -1,0 +1,43 @@
+﻿@model Models.UserModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Age)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Age)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Height)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Height)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Weight)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Weight)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | 
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+        </dl>
+
+    </div>

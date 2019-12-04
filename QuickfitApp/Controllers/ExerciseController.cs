@@ -17,11 +17,18 @@ namespace QuickfitApp.Controllers
     {
         ExerciseContainer exerciseContainer = new ExerciseContainer();
         Exercise exercise = new Exercise();
-        // GET: Exercise
         public ActionResult Index()
         {
-            List<ExerciseModel> exerciseList = exerciseContainer.GetAll();
-            return View(exerciseList);
+                List<ExerciseModel> exercises = exerciseContainer.GetAll();
+                return View(exercises);
+        }
+
+        [HttpPost]
+        public ActionResult Index(string sortField)
+        {
+            sortField = Request.Form["orderString"];
+            List<ExerciseModel> exercises = exerciseContainer.GetAll(sortField);
+            return View(exercises);
         }
 
         public ActionResult Edit(int id)
@@ -57,16 +64,24 @@ namespace QuickfitApp.Controllers
             }
         }
 
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
-            return View();
+            ExerciseModel exerciseModel = exerciseContainer.GetAll().Where(e => e.Id == id).FirstOrDefault();
+            return View(exerciseModel);
         }
 
         [HttpPost]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(ExerciseModel exerciseModel)
         {
-            exerciseContainer.Delete(id);
-            return RedirectToAction("Index");
+            try
+            {
+                exerciseContainer.Delete(exerciseModel.Id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(exerciseModel);
+            }
         }
     }
 }

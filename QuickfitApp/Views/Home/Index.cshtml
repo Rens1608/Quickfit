@@ -2,14 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">User overview</h1>
-    <ul class="UserDetail">
-        <li>@ViewData["UserName"] </li>
-        <li>@ViewData["UserAge"] </li>
-        <li>@ViewData["UserWeight"] </li>
-        <li>@ViewData["UserHeight"] </li>
-        <li>@ViewData["UserGender"] </li>
-        <li>@ViewData["Connectionstring"]</li>
-    </ul>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Login</h1>
+        <form action="" method="post">
+            <input type="button" value="Register" onclick="@("window.location.href='" + @Url.Action("Register", "Account") + "'");" />
+            <input type="button" value="Login" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" />
+        </form>
+    </div>

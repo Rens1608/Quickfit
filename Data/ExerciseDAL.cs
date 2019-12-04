@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Text;
 using ILayer;
-using java.util;
 using Models;
-
+using System.Data.SqlClient;
 
 namespace DataLayer
 {
@@ -30,7 +28,7 @@ namespace DataLayer
             }
         }
 
-        public List<ExerciseModel> GetAll()
+        public List<ExerciseModel> GetAll(string sortField)
         {
             List<ExerciseModel> tempExercises = new List<ExerciseModel>();
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
@@ -38,14 +36,18 @@ namespace DataLayer
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
                 {
-                    CommandText = "SELECT * FROM [dbo].[Exercises] WHERE [InWorkout] = 0",
+                    CommandText = "SELECT * FROM Exercises where InWorkout = 0 ORDER BY CASE WHEN @sortField = 'Name' Then Name WHEN @sortField = 'Weight' Then Weight WHEN @sortField = 'Repetitions' Then Repetitions WHEN @sortField = 'Date' Then Date END DESC",
                     Connection = connection
                 };
+                SqlParameter sqlParameter = new SqlParameter();
+                sqlParameter.ParameterName = "@sortfield";
+                sqlParameter.Value = sortField;
+                dataCommand.Parameters.Add(sqlParameter);
                 using (SqlDataReader exerciseReader = dataCommand.ExecuteReader())
                 {
                     while (exerciseReader.Read())
                     {
-                        ExerciseModel tempExercise = new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]),((DateTime)exerciseReader["Date"]).ToString("d/M/yyyy HH:mm:ss"), exerciseReader["Skillevel"].ToString(), (bool)exerciseReader["InWorkout"]);
+                        ExerciseModel tempExercise = new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]), ((DateTime)exerciseReader["Date"]).ToString("d/M/yyyy HH:mm:ss"), exerciseReader["Skillevel"].ToString(), (bool)exerciseReader["InWorkout"]);
                         tempExercises.Add(tempExercise);
                     }
                     exerciseReader.Close();

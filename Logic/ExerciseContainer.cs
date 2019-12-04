@@ -18,9 +18,9 @@ namespace LogicLayer
             ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, workoutId);
         }
 
-        public List<ExerciseModel> GetAll()
+        public List<ExerciseModel> GetAll(string sortfield = "Date")
         {
-            return ExerciseFactory.CreateExerciseContainerDAL().GetAll();
+            return ExerciseFactory.CreateExerciseContainerDAL().GetAll(sortfield);
         }
     }
 }

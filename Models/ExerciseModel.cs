@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Models
@@ -8,10 +9,14 @@ namespace Models
     public class ExerciseModel
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public int Weight { get; set; }
+        [Required]
         public int Repetitions { get; set; }
         public string Date { get; set; }
+        [Required]
         public string Level { get; set; }
         public bool InWorkout { get; set; }
             

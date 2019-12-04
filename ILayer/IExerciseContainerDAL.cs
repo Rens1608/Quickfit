@@ -7,7 +7,7 @@ namespace ILayer
 {
     public interface IExerciseContainerDAL
     {
-        List<ExerciseModel> GetAll();
+        List<ExerciseModel> GetAll(string sortField);
         void Add(ExerciseModel exercise, int workoutId);
         void Delete( int id);
     }

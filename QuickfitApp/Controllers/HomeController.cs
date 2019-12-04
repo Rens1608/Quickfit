@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QuickfitApp.Models;
 using Models;
-using DataLayer;
+using LogicLayer;
+
 
 namespace QuickfitApp.Controllers
 {
     public class HomeController : Controller
     {
+        UserContainer user = new UserContainer();
         private readonly ILogger<HomeController> _logger;
-        UserModel user = new UserModel() { Name = "Rens", Age = 18, Weight = 65, Height = 185, Gender = "Male" };
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,23 +24,24 @@ namespace QuickfitApp.Controllers
 
         public IActionResult Index()
         {
-            ViewData["UserName"] = "Name: " + user.Name;
-            ViewData["UserAge"] = "Age: " + user.Age;
-            ViewData["UserHeight"] = "Height: " + user.Height;
-            ViewData["UserWeight"] = "Weight: " + user.Weight;
-            ViewData["UserGender"] = "Gender: " + user.Gender;
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Login()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Register()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(UserModel userModel)
+        {
+            user.Add(userModel);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -3,29 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using ILayer;
 using Models;
+using Factory;
 
 namespace LogicLayer
 {
-    class UserContainer
+    public class UserContainer
     {
         public void Add(UserModel userModel)
         {
-            throw new NotImplementedException();
+            UserFactory.CreateUserContainerDAL().Add(userModel);
         }
 
-        public void Remove(string userName)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            UserFactory.CreateUserContainerDAL().Delete(id);
         }
 
-        public List<UserModel> GetAll()
+        public UserModel FindById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public UserModel GetById()
-        {
-            throw new NotImplementedException();
+            return UserFactory.CreateUserContainerDAL().FindById(id);
         }
     }
 }
