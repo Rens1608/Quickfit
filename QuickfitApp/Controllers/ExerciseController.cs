@@ -19,21 +19,21 @@ namespace QuickfitApp.Controllers
         Exercise exercise = new Exercise();
         public ActionResult Index()
         {
-                List<ExerciseModel> exercises = exerciseContainer.GetAll();
-                return View(exercises);
+            List<ExerciseModel> exercises = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
+            return View(exercises);
         }
 
         [HttpPost]
         public ActionResult Index(string sortField)
         {
             sortField = Request.Form["orderString"];
-            List<ExerciseModel> exercises = exerciseContainer.GetAll(sortField);
+            List<ExerciseModel> exercises = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")),sortField);
             return View(exercises);
         }
 
         public ActionResult Edit(int id)
         {
-            var exercise = exerciseContainer.GetAll().Where(e => e.Id == id).FirstOrDefault();
+            var exercise = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
             return View(exercise);
         }
 
@@ -55,7 +55,7 @@ namespace QuickfitApp.Controllers
 
             if (ModelState.IsValid)
             {
-                exerciseContainer.Add(exercise, workoutId);
+                exerciseContainer.Add(exercise, workoutId, Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
                 return RedirectToAction("Index");
             }
             else
@@ -66,7 +66,7 @@ namespace QuickfitApp.Controllers
 
         public ActionResult Delete(int id)
         {
-            ExerciseModel exerciseModel = exerciseContainer.GetAll().Where(e => e.Id == id).FirstOrDefault();
+            ExerciseModel exerciseModel = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
             return View(exerciseModel);
         }
 

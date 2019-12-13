@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Microsoft.AspNetCore.Http;
 using LogicLayer;
 
 namespace QuickfitApp.Controllers
@@ -53,7 +54,7 @@ namespace QuickfitApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                exerciseContainer.Add(exercise, id);
+                exerciseContainer.Add(exercise, id, Convert.ToInt32(HttpContext.Session.GetInt32("userId")));
                 return RedirectToAction("Index");
             }
             else

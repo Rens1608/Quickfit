@@ -9,7 +9,7 @@ namespace DataLayer
 {
     public class ExerciseDAL : IExerciseContainerDAL, IExerciseDAL
     {
-        public void Add(ExerciseModel exercise, int workoutId)
+        public void Add(ExerciseModel exercise, int workoutId, int userId)
         {
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
@@ -19,16 +19,20 @@ namespace DataLayer
                 SqlCommand qry = new SqlCommand(query, connection);
                 qry.ExecuteNonQuery();
 
+                string userExerciseQuery = @"insert into [User_Exercise] (UserId, ExerciseId) values ('"+ userId +"','" + GetIdFromLastExercise() +"')";
+                SqlCommand userExerciseQry = new SqlCommand(userExerciseQuery, connection);
+                userExerciseQry.ExecuteNonQuery();
+
                 if (workoutId != 0)
                 {
-                    string junctionQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ GetIdFromLastExercise() +"' , '" + workoutId + "')";
-                    SqlCommand junctionQry = new SqlCommand(junctionQuery, connection);
-                    junctionQry.ExecuteNonQuery();
+                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ GetIdFromLastExercise() +"' , '" + workoutId + "')";
+                    SqlCommand exerciseWorkoutQry = new SqlCommand(exerciseWorkoutQuery, connection);
+                    exerciseWorkoutQry.ExecuteNonQuery();
                 }
             }
         }
 
-        public List<ExerciseModel> GetAll(string sortField)
+        public List<ExerciseModel> GetAll(string sortField, int userId)
         {
             List<ExerciseModel> tempExercises = new List<ExerciseModel>();
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
@@ -36,7 +40,7 @@ namespace DataLayer
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
                 {
-                    CommandText = "SELECT * FROM Exercises where InWorkout = 0 ORDER BY CASE WHEN @sortField = 'Name' Then Name WHEN @sortField = 'Weight' Then Weight WHEN @sortField = 'Repetitions' Then Repetitions WHEN @sortField = 'Date' Then Date END DESC",
+                    CommandText = "SELECT * FROM Exercises Inner join User_Exercise on [Exercises].ExerciseId = [User_Exercise].ExerciseId where UserId = '" + userId +"' AND InWorkout = 0 ORDER BY CASE WHEN @sortField = 'Name' Then Name WHEN @sortField = 'Weight' Then Weight WHEN @sortField = 'Repetitions' Then Repetitions WHEN @sortField = 'Date' Then Date END DESC",
                     Connection = connection
                 };
                 SqlParameter sqlParameter = new SqlParameter();
@@ -96,6 +100,17 @@ namespace DataLayer
                     exerciseReader.Read();
                     return Convert.ToInt32(exerciseReader["ExerciseId"]);
                 }
+            }
+        }
+
+        public void DeleteAll()
+        {
+            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                connection.Open();
+                string query = @"Delete from [Exercises] where inWorkout = 0";
+                SqlCommand qry = new SqlCommand(query, connection);
+                qry.ExecuteNonQuery();
             }
         }
     }

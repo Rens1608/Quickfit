@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using LogicLayer;
+using Microsoft.AspNetCore.Session;
+
 namespace QuickfitApp.Controllers
 {
 
@@ -14,9 +16,10 @@ namespace QuickfitApp.Controllers
         UserContainer userContainer = new UserContainer();
         User user = new User();
         
-        public ActionResult Index(UserModel user)
+        public ActionResult Index()
         {
-            return View(user);
+            UserModel currentUser = userContainer.FindById(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
+            return View(currentUser);
         }
 
         public ActionResult Login()
@@ -36,7 +39,8 @@ namespace QuickfitApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", user.Login(userModel.Name, userModel.Password));
+                    HttpContext.Session.SetInt32("UserId", user.Login(userModel.Name, userModel.Password).Id);
+                    return RedirectToAction("Index");
                 }
             }
             catch
