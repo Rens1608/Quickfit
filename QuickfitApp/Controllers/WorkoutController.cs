@@ -15,7 +15,11 @@ namespace QuickfitApp.Controllers
         ExerciseContainer exerciseContainer = new ExerciseContainer();
         public IActionResult Index()
         {
-            List<WorkoutModel> workoutlist = workoutContainer.GetAll();
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<WorkoutModel> workoutlist = workoutContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
             return View(workoutlist);
         }
 
@@ -29,7 +33,7 @@ namespace QuickfitApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                workoutContainer.Add(workout);
+                workoutContainer.Add(workout, Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
                 return RedirectToAction("Index");
             }
             else
@@ -37,12 +41,12 @@ namespace QuickfitApp.Controllers
                 return View();
             }
         }
-        public ActionResult Details(int id)
-        {
-            var workout = workoutContainer.GetAll().Where(w => w.Id == id).FirstOrDefault();
-            workout.Exercises = workoutContainer.GetExercisesInWorkout(id);
-            return View(workout);
-        }
+        //public ActionResult Details(int id)
+        //{
+        //    //var workout = workoutContainer.GetAll().Where(w => w.Id == id).FirstOrDefault(); //TODO: Maak een findbyid
+        //    //workout.Exercises = workoutContainer.GetExercisesInWorkout(id);
+        //    //return View(workout);
+        //}
 
         public ActionResult AddExerciseToWorkout()
         {

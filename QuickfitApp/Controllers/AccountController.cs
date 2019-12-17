@@ -18,55 +18,12 @@ namespace QuickfitApp.Controllers
         
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             UserModel currentUser = userContainer.FindById(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
             return View(currentUser);
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Login(UserModel userModel)
-        {
-            try
-            {
-                if (user.Login(userModel.Name, userModel.Password) == null)
-                {
-                    ModelState.AddModelError("Password", "Account not found");
-                    return View();
-                }
-                else
-                {
-                    HttpContext.Session.SetInt32("UserId", user.Login(userModel.Name, userModel.Password).Id);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch
-            {
-                userModel.LoginErrorMessage = "Try again";
-                return View();
-            }
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Register(UserModel user)
-        {
-            try
-            {
-                userContainer.Add(user);
-                return RedirectToAction("Index", user);
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         public ActionResult Edit(int id)

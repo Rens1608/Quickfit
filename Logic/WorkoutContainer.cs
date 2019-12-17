@@ -13,14 +13,14 @@ namespace LogicLayer
             WorkoutFactory.CreateWorkoutContainerDAL().Delete(id);
         }
 
-        public void Add(WorkoutModel workout)
+        public void Add(WorkoutModel workout, int userId)
         {
-            WorkoutFactory.CreateWorkoutContainerDAL().Add(workout);
+            WorkoutFactory.CreateWorkoutContainerDAL().Add(workout, userId);
         }
 
-        public List<WorkoutModel> GetAll()
+        public List<WorkoutModel> GetAll(int userId)
         {
-            return WorkoutFactory.CreateWorkoutContainerDAL().GetAll();
+            return WorkoutFactory.CreateWorkoutContainerDAL().GetAll(userId);
         }
 
         public List<ExerciseModel> GetExercisesInWorkout(int workoutId)

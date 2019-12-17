@@ -19,6 +19,10 @@ namespace QuickfitApp.Controllers
         Exercise exercise = new Exercise();
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("Index","Home");
+            }
             List<ExerciseModel> exercises = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
             return View(exercises);
         }
