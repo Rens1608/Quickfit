@@ -30,9 +30,16 @@ namespace QuickfitApp.Controllers
         [HttpPost]
         public ActionResult Index(string sortField)
         {
-            sortField = Request.Form["orderString"];
-            List<ExerciseModel> exercises = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")),sortField);
-            return View(exercises);
+            try
+            {
+                sortField = Request.Form["orderString"];
+                List<ExerciseModel> exercises = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")), sortField);
+                return View(exercises);
+            }
+            catch
+            {
+                return RedirectToAction("Index","Account");
+            }
         }
 
         public ActionResult Edit(int id)

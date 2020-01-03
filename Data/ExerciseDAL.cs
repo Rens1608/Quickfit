@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using ILayer;
 using Models;
 using System.Data.SqlClient;
@@ -111,6 +110,31 @@ namespace DataLayer
                 string query = @"Delete from [Exercises] where inWorkout = 0";
                 SqlCommand qry = new SqlCommand(query, connection);
                 qry.ExecuteNonQuery();
+            }
+        }
+
+        public ExerciseModel GetById(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand dataCommand = new SqlCommand()
+                    {
+                        CommandText = "SELECT * FROM [dbo].[Exercises] WHERE [ExerciseId] = '" + id + "'",
+                        Connection = connection
+                    };
+                    using (SqlDataReader exerciseReader = dataCommand.ExecuteReader())
+                    {
+                        exerciseReader.Read();
+                        return new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]), exerciseReader["Date"].ToString(), exerciseReader["Skilllevel"].ToString(), Convert.ToBoolean(exerciseReader["InWorkout"]));
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
     }

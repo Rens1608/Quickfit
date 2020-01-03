@@ -23,7 +23,7 @@ namespace DataLayer
                 userExerciseQry.ExecuteNonQuery();
             }
         }
-
+        9
         public void Delete(int id)
         {
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
