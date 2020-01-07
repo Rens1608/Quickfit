@@ -13,9 +13,20 @@ namespace Data
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
                 connection.Open();
-                string query = @"insert into [Users] (Name,Password,Age,Weight,Height, Gender) values ('" + user.Name + "','" + user.Password + "','" +
-                user.Age + "','" + user.Weight + "','" + user.Height + "','" + user.Gender + "')";
+                string query = @"insert into [Users] (Name,Password,Age,Weight,Height, Gender) values (@Name, @Password, @Age, @Weight, @Height, @Gender)";
                 SqlCommand qry = new SqlCommand(query, connection);
+                qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
+                qry.Parameters["@Name"].Value = user.Name;
+                qry.Parameters.Add("@Password", System.Data.SqlDbType.VarChar);
+                qry.Parameters["@Password"].Value = user.Password;
+                qry.Parameters.Add("@Age", System.Data.SqlDbType.Int);
+                qry.Parameters["@Age"].Value = user.Age;
+                qry.Parameters.Add("@Weight", System.Data.SqlDbType.Int);
+                qry.Parameters["@Weight"].Value = user.Weight;
+                qry.Parameters.Add("@Height", System.Data.SqlDbType.Int);
+                qry.Parameters["@Height"].Value = user.Height;
+                qry.Parameters.Add("@Gender", System.Data.SqlDbType.VarChar);
+                qry.Parameters["@Gender"].Value = user.Gender;
                 qry.ExecuteNonQuery();
             }
         }
@@ -25,8 +36,10 @@ namespace Data
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
                 connection.Open();
-                string query = @"Delete from [Users] where UserId = '" + id + "'";
+                string query = @"Delete from [Users] where UserId = @Id";
                 SqlCommand qry = new SqlCommand(query, connection);
+                qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
+                qry.Parameters["@Id"].Value = id;
                 qry.ExecuteNonQuery();
             }
         }
@@ -36,10 +49,22 @@ namespace Data
             using(SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
                 conn.Open();
-                var query = @"update Users set Name ='" + name + "', Age ='" + age + "', Weight ='" + weight + "', Height ='" + height + "', Gender ='" + gender + "' where UserId = '" + id + "'";
-                using (SqlCommand command = new SqlCommand(query, conn))
+                var query = @"update Users set Name = @Name, Age = @Age, Weight = @Weight, Height = @Height, Gender = @Gender where UserId = @Id";
+                using (SqlCommand qry = new SqlCommand(query, conn))
                 {
-                    command.ExecuteNonQuery();
+                    qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Name"].Value = name;
+                    qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Id"].Value = id;
+                    qry.Parameters.Add("@Age", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Age"].Value = age;
+                    qry.Parameters.Add("@Weight", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Weight"].Value = weight;
+                    qry.Parameters.Add("@Height", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Height"].Value = height;
+                    qry.Parameters.Add("@Gender", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Gender"].Value = gender;
+                    qry.ExecuteNonQuery();
                 }
             }
         }
@@ -51,22 +76,26 @@ namespace Data
                 try
                 {
                     connection.Open();
-                    SqlCommand dataCommand = new SqlCommand()
+                    SqlCommand qry = new SqlCommand()
                     {
-                        CommandText = "SELECT * FROM [dbo].[Users] WHERE [Name] = '" + name + "' and [Password] = '" + password + "'",
+                        CommandText = "SELECT * FROM [dbo].[Users] WHERE [Name] = @Name and [Password] = @Password",
                         Connection = connection
                     };
-                    using (SqlDataReader userReader = dataCommand.ExecuteReader())
+                    qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Name"].Value = name;
+                    qry.Parameters.Add("@Password", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Password"].Value = password;
+                    using (SqlDataReader userReader = qry.ExecuteReader())
                     {
                         userReader.Read();
                         return new UserModel(Convert.ToInt32(userReader["UserId"]), userReader["Password"].ToString(), userReader["Name"].ToString(), Convert.ToInt32(userReader["Age"]), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Height"]), userReader["Gender"].ToString());
                     }
-                }
-                catch
-                {
-                    return null;
-                }
             }
+                catch
+            {
+                return null;
+            }
+        }
         }
         public UserModel FindById(int id)
         {
@@ -75,12 +104,14 @@ namespace Data
                 try
                 {
                     connection.Open();
-                    SqlCommand dataCommand = new SqlCommand()
+                    SqlCommand qry = new SqlCommand()
                     {
-                        CommandText = "SELECT * FROM [dbo].[Users] WHERE [UserId] = '" + id + "'",
+                        CommandText = "SELECT * FROM [dbo].[Users] WHERE [UserId] = @Id",
                         Connection = connection
                     };
-                    using (SqlDataReader userReader = dataCommand.ExecuteReader())
+                    qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Id"].Value = id;
+                    using (SqlDataReader userReader = qry.ExecuteReader())
                     {
                         userReader.Read();
                         return new UserModel(Convert.ToInt32(userReader["UserId"]), userReader["Password"].ToString(), userReader["Name"].ToString(), Convert.ToInt32(userReader["Age"]), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Height"]), userReader["Gender"].ToString());

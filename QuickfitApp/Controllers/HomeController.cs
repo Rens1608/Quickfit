@@ -16,12 +16,6 @@ namespace QuickfitApp.Controllers
     {
         UserContainer userContainer = new UserContainer();
         User user = new User();
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
@@ -46,7 +40,7 @@ namespace QuickfitApp.Controllers
                 else
                 {
                     HttpContext.Session.SetInt32("UserId", user.Login(userModel.Name, userModel.Password).Id);
-                    return RedirectToAction("Index","Account");
+                    return RedirectToAction("Index", "Account");
                 }
             }
             catch
