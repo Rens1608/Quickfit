@@ -18,9 +18,10 @@ namespace Models
         public int Weight { get; set; }
         [Required]
         public int Height { get; set; }
+        public string LoginErrorMessage { get; set; }
         [Required]
         public string Gender { get; set; }
-        public string LoginErrorMessage { get; set; }
+
 
         public UserModel(int id, string password, string name, int age, int weight, int height, string gender)
         {

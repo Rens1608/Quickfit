@@ -19,7 +19,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Skillevel" class="control-label"></label>
-                <input asp-for="Skillevel" class="form-control" />
+                <select class="form-control" id="Skillevel" name="Skillevel">
+                    <option>Select Level</option>
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                </select>
                 <span asp-validation-for="Skillevel" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,7 +34,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                <select class="form-control" id="Category" name="Category">
+                    <option>Select Category</option>
+                    <option>Bodybuilding</option>
+                    <option>Powerlifting</option>
+                    <option>Calisthenics</option>
+                    <option>Conditioning</option>
+                </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
