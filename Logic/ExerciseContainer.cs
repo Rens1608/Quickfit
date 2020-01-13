@@ -27,5 +27,10 @@ namespace LogicLayer
         {
             ExerciseFactory.CreateExerciseContainerDAL().DeleteAll();
         }
+
+        public ExerciseModel FindById(int id)
+        {
+            return ExerciseFactory.CreateExerciseContainerDAL().FindById(id); 
+        }
     }
 }

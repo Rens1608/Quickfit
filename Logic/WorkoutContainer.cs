@@ -27,5 +27,9 @@ namespace LogicLayer
         {
             return WorkoutFactory.CreateWorkoutContainerDAL().GetAllExercises(workoutId);
         }
+        public WorkoutModel FindById(int id)
+        {
+            return WorkoutFactory.CreateWorkoutContainerDAL().FindById(id);
+        }
     }
 }

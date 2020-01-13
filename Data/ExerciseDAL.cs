@@ -92,7 +92,7 @@ namespace DataLayer
             using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {
                 conn.Open();
-                var query = @"update Exercises set Name = @Name, Weight = @Weight, Repetitions = @Repetitions, Skillevel = @Skillevel where ExerciseId = '" + id + "'";
+                var query = @"update Exercises set Name = @Name, Weight = @Weight, Repetitions = @Repetitions, Skillevel = @Skillevel where ExerciseId = @Id";
                 using (SqlCommand qry = new SqlCommand(query, conn))
                 {
                     qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
@@ -140,7 +140,7 @@ namespace DataLayer
             }
         }
 
-        public ExerciseModel GetById(int id)
+        public ExerciseModel FindById(int id)
         {
             using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
             {

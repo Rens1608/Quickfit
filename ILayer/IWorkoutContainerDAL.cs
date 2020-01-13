@@ -11,5 +11,6 @@ namespace ILayer
         List<ExerciseModel> GetAllExercises(int workoutId);
         void Add(WorkoutModel workoutModel, int userId);
         void Delete(int id);
+        WorkoutModel FindById(int id);
     }
 }

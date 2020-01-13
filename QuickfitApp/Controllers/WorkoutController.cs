@@ -11,6 +11,7 @@ namespace QuickfitApp.Controllers
 {
     public class WorkoutController : Controller
     {
+        Workout workout = new Workout();
         WorkoutContainer workoutContainer = new WorkoutContainer();
         ExerciseContainer exerciseContainer = new ExerciseContainer();
         public IActionResult Index()
@@ -21,6 +22,46 @@ namespace QuickfitApp.Controllers
             }
             List<WorkoutModel> workoutlist = workoutContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
             return View(workoutlist);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var workout = workoutContainer.FindById(id);
+            return View(workout);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(WorkoutModel workout)
+        {
+            try
+            {
+                workoutContainer.Delete(workout.Id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(workout);
+            }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var workout = workoutContainer.FindById(id);
+            return View(workout);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id, string name, string skillevel, int time, string category)
+        {
+            try
+            {
+                workout.UpdateWorkout(id, name, skillevel, time, category);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult Create()
@@ -41,12 +82,13 @@ namespace QuickfitApp.Controllers
                 return View();
             }
         }
-        //public ActionResult Details(int id)
-        //{
-        //    //var workout = workoutContainer.GetAll().Where(w => w.Id == id).FirstOrDefault(); //TODO: Maak een findbyid
-        //    //workout.Exercises = workoutContainer.GetExercisesInWorkout(id);
-        //    //return View(workout);
-        //}
+
+        public ActionResult Details(int id)
+        {
+            var workout = workoutContainer.FindById(id);
+            workout.Exercises = workoutContainer.GetExercisesInWorkout(id);
+            return View(workout);
+        }
 
         public ActionResult AddExerciseToWorkout()
         {

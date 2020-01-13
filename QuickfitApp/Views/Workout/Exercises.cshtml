@@ -36,8 +36,8 @@
                         @Html.DisplayFor(modelItem => item.Level)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Edit","Edit","Exercise", new { id = item.Id })
+                        @Html.ActionLink("Delete","Delete","Exercise", new { id = item.Id })
                     </td>
                 </tr>
             }
