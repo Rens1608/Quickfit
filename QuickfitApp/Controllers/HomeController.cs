@@ -55,11 +55,12 @@ namespace QuickfitApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(UserModel user)
+        public ActionResult Register(UserModel userModel)
         {
             try
             {
-                userContainer.Add(user);
+                userContainer.Add(userModel);
+                HttpContext.Session.SetInt32("UserId", user.Login(userModel.Name, userModel.Password).Id);
                 return RedirectToAction("Index", user);
             }
             catch
