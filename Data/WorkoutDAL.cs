@@ -8,9 +8,9 @@ namespace DataLayer
 {
     public class WorkoutDAL : IWorkoutContainerDAL, IWorkoutDAL
     {
-        public void Add(WorkoutModel workout, int userId)
+        public void Add(WorkoutModel workout, int userId, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"insert into [Workouts] (Name, Skillevel, Category, Time, CaloriesBurned) values (@Name, @Skillevel, @Time, @Caloriesburned)";
@@ -33,9 +33,9 @@ namespace DataLayer
             }
         }
         
-        public void Delete(int id)
+        public void Delete(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"Delete from [Workouts] where WorkoutId = @Id";
@@ -46,10 +46,10 @@ namespace DataLayer
             }
         }
 
-        public List<WorkoutModel> GetAll(int userId)
+        public List<WorkoutModel> GetAll(int userId, string connectionstring)
         {
             List<WorkoutModel> tempWorkouts = new List<WorkoutModel>();
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
@@ -63,7 +63,7 @@ namespace DataLayer
                 {
                     while (workoutReader.Read())
                     {
-                        WorkoutModel tempWorkout = new WorkoutModel(Convert.ToInt32(workoutReader["WorkoutId"]), workoutReader["Name"].ToString(), workoutReader["Skillevel"].ToString(), Convert.ToInt32(workoutReader["Time"]), Convert.ToInt32(workoutReader["CaloriesBurned"]), workoutReader["Category"].ToString(), GetAmountOfExercises(Convert.ToInt32(workoutReader["WorkoutId"])));
+                        WorkoutModel tempWorkout = new WorkoutModel(Convert.ToInt32(workoutReader["WorkoutId"]), workoutReader["Name"].ToString(), workoutReader["Skillevel"].ToString(), Convert.ToInt32(workoutReader["Time"]), Convert.ToInt32(workoutReader["CaloriesBurned"]), workoutReader["Category"].ToString(), GetAmountOfExercises(Convert.ToInt32(workoutReader["WorkoutId"]),connectionstring));
                         tempWorkouts.Add(tempWorkout);
                     }
                     workoutReader.Close();
@@ -72,13 +72,13 @@ namespace DataLayer
             }
         }
 
-        public void UpdateWorkout(int id, string name, string skillevel, int time, string category)
+        public void UpdateWorkout(int id, string name, string skillevel, int time, string category, string connectionstring)
         {
-            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                conn.Open();
+                connection.Open();
                 var query = @"update Workouts set Name = @Name, Skillevel = @Skillevel, Time = @Time, Category = @Category where ExerciseId = @Id";
-                using (SqlCommand qry = new SqlCommand(query, conn))
+                using (SqlCommand qry = new SqlCommand(query, connection))
                 {
                     qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
                     qry.Parameters["@Id"].Value = id;
@@ -95,10 +95,10 @@ namespace DataLayer
             }
         }
 
-        public List<ExerciseModel> GetAllExercises(int workoutId)
+        public List<ExerciseModel> GetAllExercises(int workoutId, string connectionstring)
         {
             List<ExerciseModel> tempExercises = new List<ExerciseModel>();
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
@@ -120,15 +120,15 @@ namespace DataLayer
                 }
             }
         }
-        public int GetAmountOfExercises(int id)
+        public int GetAmountOfExercises(int id, string connectionstring)
         {
-            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                conn.Open();
+                connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
                 {
                     CommandText = "SELECT COUNT(Exercise_Workout.ExerciseId) AS NumberOfExercises FROM Exercise_Workout LEFT JOIN Workouts ON Exercise_Workout.WorkoutId = Workouts.WorkoutId where workouts.workoutId = @Id GROUP BY Workouts.name ",
-                    Connection = conn
+                    Connection = connection
                 };
                 dataCommand.Parameters.Add("@Id", System.Data.SqlDbType.Int);
                 dataCommand.Parameters["@Id"].Value = id;
@@ -140,9 +140,9 @@ namespace DataLayer
             }
         }
 
-        public WorkoutModel FindById(int id)
+        public WorkoutModel FindById(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 try
                 {
@@ -157,7 +157,7 @@ namespace DataLayer
                     using (SqlDataReader workoutReader = dataCommand.ExecuteReader())
                     {
                         workoutReader.Read();
-                        return new WorkoutModel(Convert.ToInt32(workoutReader["WorkoutId"]), workoutReader["Name"].ToString(), workoutReader["Skillevel"].ToString(), Convert.ToInt32(workoutReader["Time"]), Convert.ToInt32(workoutReader["CaloriesBurned"]), workoutReader["Category"].ToString(), GetAmountOfExercises(Convert.ToInt32(workoutReader["WorkoutId"])));
+                        return new WorkoutModel(Convert.ToInt32(workoutReader["WorkoutId"]), workoutReader["Name"].ToString(), workoutReader["Skillevel"].ToString(), Convert.ToInt32(workoutReader["Time"]), Convert.ToInt32(workoutReader["CaloriesBurned"]), workoutReader["Category"].ToString(), GetAmountOfExercises(Convert.ToInt32(workoutReader["WorkoutId"]),connectionstring));
                     }
                 }
                 catch

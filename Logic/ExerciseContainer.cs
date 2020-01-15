@@ -8,29 +8,31 @@ namespace LogicLayer
 {
     public class ExerciseContainer
     {
+        private string connectionstring;
+
+        public ExerciseContainer(string connectionstring)
+        {
+            this.connectionstring = connectionstring;
+        }
+
         public void Delete(int id)
         {
-            ExerciseFactory.CreateExerciseContainerDAL().Delete(id);
+            ExerciseFactory.CreateExerciseContainerDAL().Delete(id, connectionstring);
         }
 
         public void Add(ExerciseModel exercise, int workoutId, int userId)
         {
-            ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, workoutId, userId);
+            ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, workoutId, userId, connectionstring);
         }
 
         public List<ExerciseModel> GetAll(int userId, string sortfield = "Date")
         {
-            return ExerciseFactory.CreateExerciseContainerDAL().GetAll(sortfield, userId);
-        }
-
-        public void DeleteAll()
-        {
-            ExerciseFactory.CreateExerciseContainerDAL().DeleteAll();
+            return ExerciseFactory.CreateExerciseContainerDAL().GetAll(sortfield, userId, connectionstring);
         }
 
         public ExerciseModel FindById(int id)
         {
-            return ExerciseFactory.CreateExerciseContainerDAL().FindById(id); 
+            return ExerciseFactory.CreateExerciseContainerDAL().FindById(id, connectionstring); 
         }
     }
 }

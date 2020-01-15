@@ -13,8 +13,8 @@ namespace QuickfitApp.Controllers
 
     public class AccountController : Controller
     {
-        UserContainer userContainer = new UserContainer();
-        User user = new User();
+        UserContainer userContainer = new UserContainer(AppSettingsJson.GetConnectionstring());
+        User user = new User(AppSettingsJson.GetConnectionstring());
         
         public ActionResult Index()
         {

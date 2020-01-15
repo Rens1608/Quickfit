@@ -9,19 +9,26 @@ namespace LogicLayer
 {
     public class UserContainer
     {
+        private string connectionstring;
+
+        public UserContainer(string connectionstring)
+        {
+            this.connectionstring = connectionstring;
+        }
+
         public void Add(UserModel userModel)
         {
-            UserFactory.CreateUserContainerDAL().Add(userModel);
+            UserFactory.CreateUserContainerDAL().Add(userModel, connectionstring);
         }
 
         public void Delete(int id)
         {
-            UserFactory.CreateUserContainerDAL().Delete(id);
+            UserFactory.CreateUserContainerDAL().Delete(id, connectionstring);
         }
 
         public UserModel FindById(int id)
         {
-            return UserFactory.CreateUserContainerDAL().FindById(id);
+            return UserFactory.CreateUserContainerDAL().FindById(id, connectionstring);
         }
     }
 }

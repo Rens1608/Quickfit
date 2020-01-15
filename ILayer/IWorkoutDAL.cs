@@ -6,6 +6,6 @@ namespace ILayer
 {
     public interface IWorkoutDAL
     {
-        void UpdateWorkout(int id, string name, string skillevel, int time, string category);
+        void UpdateWorkout(int id, string name, string skillevel, int time, string category, string connectionstring);
     }
 }

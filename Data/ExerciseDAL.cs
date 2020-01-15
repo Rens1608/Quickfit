@@ -8,9 +8,9 @@ namespace DataLayer
 {
     public class ExerciseDAL : IExerciseContainerDAL, IExerciseDAL
     {
-        public void Add(ExerciseModel exercise, int workoutId, int userId)
+        public void Add(ExerciseModel exercise, int workoutId, int userId, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"insert into [Exercises] (Name,Weight,Repetitions,Skillevel, InWorkout) values (@Name, @Weight, @Repetitions, @Skillevel, @InWorkout)";
@@ -27,7 +27,7 @@ namespace DataLayer
                 qry.Parameters["@InWorkout"].Value = exercise.InWorkout;
                 qry.ExecuteNonQuery();
 
-                string userExerciseQuery = @"insert into [User_Exercise] (UserId, ExerciseId) values (@userId,'" + GetIdFromLastExercise() +"')";
+                string userExerciseQuery = @"insert into [User_Exercise] (UserId, ExerciseId) values (@userId,'" + GetIdFromLastExercise(connectionstring) +"')";
                 SqlCommand userExerciseQry = new SqlCommand(userExerciseQuery, connection);
                 userExerciseQry.Parameters.Add("@userId");
                 userExerciseQry.Parameters["@userId"].Value = userId;
@@ -35,7 +35,7 @@ namespace DataLayer
 
                 if (workoutId != 0)
                 {
-                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ GetIdFromLastExercise() +"' , @workoutId)";
+                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ GetIdFromLastExercise(connectionstring) +"' , @workoutId)";
                     SqlCommand exerciseWorkoutQry = new SqlCommand(exerciseWorkoutQuery, connection);
                     exerciseWorkoutQry.Parameters.Add("@workoutId");
                     exerciseWorkoutQry.Parameters["@workoutId"].Value = workoutId;
@@ -44,10 +44,10 @@ namespace DataLayer
             }
         }
 
-        public List<ExerciseModel> GetAll(string sortField, int userId)
+        public List<ExerciseModel> GetAll(string sortField, int userId, string connectionstring)
         {
             List<ExerciseModel> tempExercises = new List<ExerciseModel>();
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
@@ -74,9 +74,9 @@ namespace DataLayer
             }
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"Delete from [Exercises] where ExerciseId = @Id";
@@ -87,13 +87,13 @@ namespace DataLayer
             }
         }
 
-        public void UpdateExercise(int id, string name, int weight, int repetitions, string skillevel)
+        public void UpdateExercise(int id, string name, int weight, int repetitions, string skillevel, string connectionstring)
         {
-            using (SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                conn.Open();
+                connection.Open();
                 var query = @"update Exercises set Name = @Name, Weight = @Weight, Repetitions = @Repetitions, Skillevel = @Skillevel where ExerciseId = @Id";
-                using (SqlCommand qry = new SqlCommand(query, conn))
+                using (SqlCommand qry = new SqlCommand(query, connection))
                 {
                     qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
                     qry.Parameters["@Id"].Value = id;
@@ -111,9 +111,9 @@ namespace DataLayer
 
         }
 
-        public int GetIdFromLastExercise()
+        public int GetIdFromLastExercise(string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 SqlCommand dataCommand = new SqlCommand()
@@ -129,20 +129,9 @@ namespace DataLayer
             }
         }
 
-        public void DeleteAll()
+        public ExerciseModel FindById(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
-            {
-                connection.Open();
-                string query = @"Delete from [Exercises] where inWorkout = 0";
-                SqlCommand qry = new SqlCommand(query, connection);
-                qry.ExecuteNonQuery();
-            }
-        }
-
-        public ExerciseModel FindById(int id)
-        {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 try
                 {

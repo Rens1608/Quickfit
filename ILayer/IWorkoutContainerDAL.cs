@@ -7,10 +7,10 @@ namespace ILayer
 {
     public interface IWorkoutContainerDAL
     {
-        List<WorkoutModel> GetAll(int userId);
-        List<ExerciseModel> GetAllExercises(int workoutId);
-        void Add(WorkoutModel workoutModel, int userId);
-        void Delete(int id);
-        WorkoutModel FindById(int id);
+        List<WorkoutModel> GetAll(int userId, string connectionstring);
+        List<ExerciseModel> GetAllExercises(int workoutId, string connectionstring);
+        void Add(WorkoutModel workoutModel, int userId, string connectionstring);
+        void Delete(int id, string connectionstring);
+        WorkoutModel FindById(int id, string connectionstring);
     }
 }

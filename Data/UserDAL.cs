@@ -8,9 +8,9 @@ namespace Data
 {
     public class UserDAL : IUserDAL, IUserContainerDAL
     {
-        public void Add(UserModel user)
+        public void Add(UserModel user, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"insert into [Users] (Name,Password,Age,Weight,Height, Gender) values (@Name, @Password, @Age, @Weight, @Height, @Gender)";
@@ -31,9 +31,9 @@ namespace Data
             }
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
                 string query = @"Delete from [Users] where UserId = @Id";
@@ -44,13 +44,13 @@ namespace Data
             }
         }
 
-        public void UpdateUser(int id, string name, int age, int weight, int height, string gender)
+        public void UpdateUser(int id, string name, int age, int weight, int height, string gender, string connectionstring)
         {
-            using(SqlConnection conn = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                conn.Open();
+                connection.Open();
                 var query = @"update Users set Name = @Name, Age = @Age, Weight = @Weight, Height = @Height, Gender = @Gender where UserId = @Id";
-                using (SqlCommand qry = new SqlCommand(query, conn))
+                using (SqlCommand qry = new SqlCommand(query, connection))
                 {
                     qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
                     qry.Parameters["@Name"].Value = name;
@@ -69,9 +69,9 @@ namespace Data
             }
         }
 
-        public UserModel LogIn(string name, string password)
+        public UserModel LogIn(string name, string password, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 try
                 {
@@ -97,9 +97,9 @@ namespace Data
             }
         }
         }
-        public UserModel FindById(int id)
+        public UserModel FindById(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(AppSettingsJson.GetConnectionstring()))
+            using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 try
                 {

@@ -14,8 +14,8 @@ namespace QuickfitApp.Controllers
 {
     public class HomeController : Controller
     {
-        UserContainer userContainer = new UserContainer();
-        User user = new User();
+        UserContainer userContainer = new UserContainer(AppSettingsJson.GetConnectionstring());
+        User user = new User(AppSettingsJson.GetConnectionstring());
 
         public IActionResult Index()
         {

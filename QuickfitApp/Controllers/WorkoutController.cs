@@ -6,14 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Microsoft.AspNetCore.Http;
 using LogicLayer;
-
 namespace QuickfitApp.Controllers
 {
     public class WorkoutController : Controller
     {
-        Workout workout = new Workout();
-        WorkoutContainer workoutContainer = new WorkoutContainer();
-        ExerciseContainer exerciseContainer = new ExerciseContainer();
+        Workout workout = new Workout(AppSettingsJson.GetConnectionstring());
+        WorkoutContainer workoutContainer = new WorkoutContainer(AppSettingsJson.GetConnectionstring());
+        ExerciseContainer exerciseContainer = new ExerciseContainer(AppSettingsJson.GetConnectionstring());
         public IActionResult Index()
         {
             if (HttpContext.Session.GetInt32("UserId") == null)

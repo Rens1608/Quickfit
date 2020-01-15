@@ -15,8 +15,8 @@ namespace QuickfitApp.Controllers
 {
     public class ExerciseController : Controller
     {
-        ExerciseContainer exerciseContainer = new ExerciseContainer();
-        Exercise exercise = new Exercise();
+        ExerciseContainer exerciseContainer = new ExerciseContainer(AppSettingsJson.GetConnectionstring());
+        Exercise exercise = new Exercise(AppSettingsJson.GetConnectionstring());
         public ActionResult Index()
         {
             if (HttpContext.Session.GetInt32("UserId") == null)

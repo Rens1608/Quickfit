@@ -7,8 +7,8 @@ namespace ILayer
 {
     public interface IUserContainerDAL
     {
-        void Add(UserModel model);
-        void Delete(int id);
-        UserModel FindById(int id);
+        void Add(UserModel model, string connectionstring);
+        void Delete(int id, string connectionstring);
+        UserModel FindById(int id, string connectionstring);
     }
 }
