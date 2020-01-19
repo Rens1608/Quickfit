@@ -7,5 +7,6 @@ namespace ILayer
     public interface IExerciseDAL
     {
         void UpdateExercise(int id, string name, int weight, int repetitions, string skillevel, string connectionstring);
+        int GetIdFromLatestExercise(string connectionstring);
     }
 }

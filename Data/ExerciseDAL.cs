@@ -15,29 +15,29 @@ namespace DataLayer
                 connection.Open();
                 string query = @"insert into [Exercises] (Name,Weight,Repetitions,Skillevel, InWorkout) values (@Name, @Weight, @Repetitions, @Skillevel, @InWorkout)";
                 SqlCommand qry = new SqlCommand(query, connection);
-                qry.Parameters.Add("@Name");
+                qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
                 qry.Parameters["@Name"].Value = exercise.Name;
-                qry.Parameters.Add("@Weight");
+                qry.Parameters.Add("@Weight", System.Data.SqlDbType.Int);
                 qry.Parameters["@Weight"].Value = exercise.Weight;
-                qry.Parameters.Add("@Repetitions");
+                qry.Parameters.Add("@Repetitions", System.Data.SqlDbType.Int);
                 qry.Parameters["@Repetitions"].Value = exercise.Repetitions;
-                qry.Parameters.Add("@Skillevel");
+                qry.Parameters.Add("@Skillevel", System.Data.SqlDbType.VarChar);
                 qry.Parameters["@Skillevel"].Value = exercise.Level;
-                qry.Parameters.Add("@InWorkout");
+                qry.Parameters.Add("@InWorkout", System.Data.SqlDbType.Int);
                 qry.Parameters["@InWorkout"].Value = exercise.InWorkout;
                 qry.ExecuteNonQuery();
 
-                string userExerciseQuery = @"insert into [User_Exercise] (UserId, ExerciseId) values (@userId,'" + GetIdFromLastExercise(connectionstring) +"')";
+                string userExerciseQuery = @"insert into [User_Exercise] (UserId, ExerciseId) values (@userId,'" + GetIdFromLatestExercise(connectionstring) + "')";
                 SqlCommand userExerciseQry = new SqlCommand(userExerciseQuery, connection);
-                userExerciseQry.Parameters.Add("@userId");
+                userExerciseQry.Parameters.Add("@userId", System.Data.SqlDbType.Int);
                 userExerciseQry.Parameters["@userId"].Value = userId;
                 userExerciseQry.ExecuteNonQuery();
 
                 if (workoutId != 0)
                 {
-                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ GetIdFromLastExercise(connectionstring) +"' , @workoutId)";
+                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('" + GetIdFromLatestExercise(connectionstring) + "' , @workoutId)";
                     SqlCommand exerciseWorkoutQry = new SqlCommand(exerciseWorkoutQuery, connection);
-                    exerciseWorkoutQry.Parameters.Add("@workoutId");
+                    exerciseWorkoutQry.Parameters.Add("@workoutId", System.Data.SqlDbType.Int);
                     exerciseWorkoutQry.Parameters["@workoutId"].Value = workoutId;
                     exerciseWorkoutQry.ExecuteNonQuery();
                 }
@@ -111,7 +111,7 @@ namespace DataLayer
 
         }
 
-        public int GetIdFromLastExercise(string connectionstring)
+        public int GetIdFromLatestExercise(string connectionstring)
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {

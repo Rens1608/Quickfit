@@ -44,15 +44,23 @@ namespace QuickfitApp.Controllers
 
         public ActionResult Edit(int id)
         {
-            var exercise = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
-            return View(exercise);
+                var exercise = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
+                return View(exercise);
         }
 
         [HttpPost]
         public ActionResult Edit(ExerciseModel exerciseModel)
         {
-            exercise.UpdateExercise(exerciseModel.Id, exerciseModel.Name, exerciseModel.Weight, exerciseModel.Repetitions, exerciseModel.Level);
-            return RedirectToAction("Index");
+            try
+            {
+                exercise.UpdateExercise(exerciseModel.Id, exerciseModel.Name, exerciseModel.Weight, exerciseModel.Repetitions, exerciseModel.Level);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ModelState.AddModelError("Level", "Something was not filled in correctly, try again!");
+                return View(exerciseModel);
+            }
         }
 
         public ActionResult Create()

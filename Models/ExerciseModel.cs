@@ -42,5 +42,14 @@ namespace Models
             Repetitions = repetitions;
             Level = level;
         }
+        public ExerciseModel(string name, int weight, int repetitions, string date, string level, bool inWorkout)
+        {
+            Name = name;
+            Weight = weight;
+            Repetitions = repetitions;
+            Date = date;
+            Level = level;
+            InWorkout = inWorkout;
+        }
     }
 }

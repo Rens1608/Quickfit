@@ -13,23 +13,25 @@ namespace DataLayer
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                string query = @"insert into [Workouts] (Name, Skillevel, Category, Time, CaloriesBurned) values (@Name, @Skillevel, @Time, @Caloriesburned)";
-                SqlCommand qry = new SqlCommand(query, connection);
-                qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
-                qry.Parameters["@Name"].Value = workout.Name;
-                qry.Parameters.Add("@Skillevel", System.Data.SqlDbType.VarChar);
-                qry.Parameters["@Skillevel"].Value = workout.Skillevel;
-                qry.Parameters.Add("@Category", System.Data.SqlDbType.VarChar);
-                qry.Parameters["@Category"].Value = workout.Category;
-                qry.Parameters.Add("@Time", System.Data.SqlDbType.Int);
-                qry.Parameters["@Time"].Value = workout.Time;
-                qry.Parameters.Add("@Caloriesburned", System.Data.SqlDbType.Int);
-                qry.Parameters["@Caloriesburned"].Value = workout.Time * 4;
-                qry.ExecuteNonQuery();
+                    string query = @"insert into [Workouts] (Name, Skillevel, Category, Time, CaloriesBurned) values (@Name, @Skillevel,@Category, @Time, @Caloriesburned)";
+                    SqlCommand qry = new SqlCommand(query, connection);
+                    qry.Parameters.Add("@Name", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Name"].Value = workout.Name;
+                    qry.Parameters.Add("@Skillevel", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Skillevel"].Value = workout.Skillevel;
+                    qry.Parameters.Add("@Category", System.Data.SqlDbType.VarChar);
+                    qry.Parameters["@Category"].Value = workout.Category;
+                    qry.Parameters.Add("@Time", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Time"].Value = workout.Time;
+                    qry.Parameters.Add("@Caloriesburned", System.Data.SqlDbType.Int);
+                    qry.Parameters["@Caloriesburned"].Value = workout.Time * 4;
+                    qry.ExecuteNonQuery();
 
-                string userExerciseQuery = @"insert into [User_Workout] (UserId, WorkoutId) values ('" + userId + "','" + workout.Id + "')";
-                SqlCommand userExerciseQry = new SqlCommand(userExerciseQuery, connection);
-                userExerciseQry.ExecuteNonQuery();
+                    string userExerciseQuery = @"insert into [User_Workout] (WorkoutId, UserId) values ( @WorkoutId, @UserId)";
+                    SqlCommand userExerciseQry = new SqlCommand(userExerciseQuery, connection);
+                    userExerciseQry.Parameters.AddWithValue("@UserId", userId);
+                    userExerciseQry.Parameters.AddWithValue("@WorkoutId", GetIdFromNewestWorkout(connectionstring));
+                    userExerciseQry.ExecuteNonQuery();
             }
         }
         
@@ -77,7 +79,7 @@ namespace DataLayer
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                var query = @"update Workouts set Name = @Name, Skillevel = @Skillevel, Time = @Time, Category = @Category where ExerciseId = @Id";
+                var query = @"update Workouts set Name = @Name, Skillevel = @Skillevel, Time = @Time, Category = @Category where WorkoutId = @Id";
                 using (SqlCommand qry = new SqlCommand(query, connection))
                 {
                     qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
@@ -122,21 +124,28 @@ namespace DataLayer
         }
         public int GetAmountOfExercises(int id, string connectionstring)
         {
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            try
             {
-                connection.Open();
-                SqlCommand dataCommand = new SqlCommand()
+                using (SqlConnection connection = new SqlConnection(connectionstring))
                 {
-                    CommandText = "SELECT COUNT(Exercise_Workout.ExerciseId) AS NumberOfExercises FROM Exercise_Workout LEFT JOIN Workouts ON Exercise_Workout.WorkoutId = Workouts.WorkoutId where workouts.workoutId = @Id GROUP BY Workouts.name ",
-                    Connection = connection
-                };
-                dataCommand.Parameters.Add("@Id", System.Data.SqlDbType.Int);
-                dataCommand.Parameters["@Id"].Value = id;
-                using (SqlDataReader workoutReader = dataCommand.ExecuteReader())
-                {
-                    workoutReader.Read();
-                    return Convert.ToInt32(workoutReader["NumberOfExercises"]);
+                    connection.Open();
+                    SqlCommand dataCommand = new SqlCommand()
+                    {
+                        CommandText = "SELECT COUNT(Exercise_Workout.ExerciseId) AS NumberOfExercises FROM Exercise_Workout LEFT JOIN Workouts ON Exercise_Workout.WorkoutId = Workouts.WorkoutId where workouts.workoutId = @Id GROUP BY Workouts.name ",
+                        Connection = connection
+                    };
+                    dataCommand.Parameters.Add("@Id", System.Data.SqlDbType.Int);
+                    dataCommand.Parameters["@Id"].Value = id;
+                    using (SqlDataReader workoutReader = dataCommand.ExecuteReader())
+                    {
+                        workoutReader.Read();
+                        return Convert.ToInt32(workoutReader["NumberOfExercises"]);
+                    }
                 }
+            }
+            catch
+            {
+                return 0;
             }
         }
 
@@ -163,6 +172,21 @@ namespace DataLayer
                 catch
                 {
                     return null;
+                }
+            }
+        }
+
+        public int GetIdFromNewestWorkout(string connectionstring)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                connection.Open();
+                string query = "Select Top 1 WorkoutId From [Workouts] Order By WorkoutId Desc";
+                SqlCommand dataCommand = new SqlCommand(query, connection);
+                using (SqlDataReader workoutReader = dataCommand.ExecuteReader())
+                {
+                    workoutReader.Read();
+                    return Convert.ToInt32(workoutReader["WorkoutId"]);
                 }
             }
         }

@@ -13,4 +13,13 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\DataLayer.csproj" />
+    <ProjectReference Include="..\Factory\Factory.csproj" />
+    <ProjectReference Include="..\ILayer\ILayer.csproj" />
+    <ProjectReference Include="..\Logic\LogicLayer.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\QuickfitApp\QuickfitApp.csproj" />
+  </ItemGroup>
+
 </Project>

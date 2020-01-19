@@ -19,5 +19,10 @@ namespace LogicLayer
         {
             ExerciseFactory.CreateExerciseDAL().UpdateExercise(id, name, weight, repetitions, skillevel, connectionstring);
         }
+
+        public int GetIdFromLatestExercise()
+        {
+            return ExerciseFactory.CreateExerciseDAL().GetIdFromLatestExercise(connectionstring);
+        }
     }
 }

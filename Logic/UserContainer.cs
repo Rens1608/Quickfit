@@ -30,5 +30,10 @@ namespace LogicLayer
         {
             return UserFactory.CreateUserContainerDAL().FindById(id, connectionstring);
         }
+
+        public List<UserModel> GetAll()
+        {
+            return UserFactory.CreateUserContainerDAL().GetAll(connectionstring);
+        }
     }
 }

@@ -3,6 +3,7 @@ using ILayer;
 using System.Data.SqlClient;
 using DataLayer;
 using Models;
+using System.Collections.Generic;
 
 namespace Data
 {
@@ -90,19 +91,17 @@ namespace Data
                         userReader.Read();
                         return new UserModel(Convert.ToInt32(userReader["UserId"]), userReader["Password"].ToString(), userReader["Name"].ToString(), Convert.ToInt32(userReader["Age"]), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Height"]), userReader["Gender"].ToString());
                     }
-            }
+                }
                 catch
-            {
+                {
                 return null;
+                }
             }
-        }
         }
         public UserModel FindById(int id, string connectionstring)
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                try
-                {
                     connection.Open();
                     SqlCommand qry = new SqlCommand()
                     {
@@ -116,10 +115,28 @@ namespace Data
                         userReader.Read();
                         return new UserModel(Convert.ToInt32(userReader["UserId"]), userReader["Password"].ToString(), userReader["Name"].ToString(), Convert.ToInt32(userReader["Age"]), Convert.ToInt32(userReader["Weight"]), Convert.ToInt32(userReader["Height"]), userReader["Gender"].ToString());
                     }
-                }
-                catch
+            }
+        }
+        public List<UserModel> GetAll(string connectionstring)
+        {
+            List<UserModel> tempUsers = new List<UserModel>();
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                connection.Open();
+                SqlCommand dataCommand = new SqlCommand()
                 {
-                    return null;
+                    CommandText = "SELECT * FROM Users",
+                    Connection = connection
+                };
+                using (SqlDataReader exerciseReader = dataCommand.ExecuteReader())
+                {
+                    while (exerciseReader.Read())
+                    {
+                        UserModel tempUser = new UserModel(Convert.ToInt32(exerciseReader["UserId"]), exerciseReader["Name"].ToString(), exerciseReader["Password"].ToString(), Convert.ToInt32(exerciseReader["Age"]), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Height"]), exerciseReader["Gender"].ToString());
+                        tempUsers.Add(tempUser);
+                    }
+                    exerciseReader.Close();
+                    return tempUsers;
                 }
             }
         }

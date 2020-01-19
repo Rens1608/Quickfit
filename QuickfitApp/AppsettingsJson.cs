@@ -22,5 +22,11 @@ namespace QuickfitApp
             var configuration = GetAppSettings();
             return configuration.GetSection("DatabaseSettings").GetSection("ConnectionString").Value;
         }
+
+        public static string GetTestConnectionstring()
+        {
+            var configuration = GetAppSettings();
+            return configuration.GetSection("DatabaseSettings").GetSection("TestConnectionString").Value;
+        }
     }
 }

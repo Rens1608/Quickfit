@@ -52,15 +52,15 @@ namespace QuickfitApp.Controllers
         [HttpPost]
         public ActionResult Edit(int id, string name, string skillevel, int time, string category)
         {
-            try
-            {
+            //try
+            //{
                 workout.UpdateWorkout(id, name, skillevel, time, category);
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         public ActionResult Create()
@@ -99,7 +99,8 @@ namespace QuickfitApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                exerciseContainer.Add(exercise, id, Convert.ToInt32(HttpContext.Session.GetInt32("userId")));
+                int userId = Convert.ToInt32(HttpContext.Session.GetInt32("userId"));
+                exerciseContainer.Add(exercise, id, userId);
                 return RedirectToAction("Index");
             }
             else
