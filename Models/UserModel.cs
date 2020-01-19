@@ -10,6 +10,7 @@ namespace Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         public int Age { get; set; }
@@ -17,7 +18,6 @@ namespace Models
         public int Weight { get; set; }
         [Required]
         public int Height { get; set; }
-        public string LoginErrorMessage { get; set; }
         [Required]
         public string Gender { get; set; }
 

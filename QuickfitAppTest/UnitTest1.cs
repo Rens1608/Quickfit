@@ -68,6 +68,7 @@ namespace QuickfitAppTest
             int totalAmountOfExercises = workoutContainer.GetExercisesInWorkout(1).Count;
             exerciseContainer.Add(new ExerciseModel("Bench", 65, 10, null, "Beginner", true), 1, 1);
             int newTotalAmountOfExercises = workoutContainer.GetExercisesInWorkout(1).Count;
+            exerciseContainer.Delete(exercise.GetIdFromLatestExercise());
             Assert.Greater(newTotalAmountOfExercises, totalAmountOfExercises);
         }
     }
