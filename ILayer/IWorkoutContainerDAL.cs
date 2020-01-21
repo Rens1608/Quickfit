@@ -12,5 +12,6 @@ namespace ILayer
         void Add(WorkoutModel workoutModel, int userId, string connectionstring);
         void Delete(int id, string connectionstring);
         WorkoutModel FindById(int id, string connectionstring);
+        void AddExerciseToWorkout(int userId, ExerciseModel exercise, int workoutId ,string connection);
     }
 }

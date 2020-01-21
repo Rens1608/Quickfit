@@ -38,5 +38,10 @@ namespace LogicLayer
         {
             return WorkoutFactory.CreateWorkoutContainerDAL().FindById(id, connectionstring);
         }
+
+        public void AddExerciseToWorkout(int userId, ExerciseModel exercise, int workoutId)
+        {
+            WorkoutFactory.CreateWorkoutContainerDAL().AddExerciseToWorkout(userId, exercise,workoutId,connectionstring);
+        }
     }
 }

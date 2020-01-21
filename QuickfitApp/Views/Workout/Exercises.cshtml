@@ -2,7 +2,7 @@
 
 
     <p>
-        @Html.ActionLink("Create new", "AddExerciseToWorkout", new { id = Model.Id })
+        @Html.ActionLink("Create new", "AddExerciseToWorkout", Model.Id)
     </p>
 
 <table class="table">
@@ -25,21 +25,21 @@
         <tbody>
             @foreach (var item in Model.Exercises)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Repetitions)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Level)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit","Edit","Exercise", new { id = item.Id })
-                        @Html.ActionLink("Delete","Delete","Exercise", new { id = item.Id })
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Repetitions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Exercise", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", "Exercise", new { id = item.Id })
+                </td>
+            </tr>
             }
         </tbody>
     }

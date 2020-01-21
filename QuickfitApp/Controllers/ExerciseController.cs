@@ -44,8 +44,8 @@ namespace QuickfitApp.Controllers
 
         public ActionResult Edit(int id)
         {
-                var exercise = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
-                return View(exercise);
+            var exercise = exerciseContainer.FindById(id);
+            return View(exercise);
         }
 
         [HttpPost]
@@ -69,23 +69,25 @@ namespace QuickfitApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ExerciseModel exercise, int workoutId = 0)
+        public ActionResult Create(ExerciseModel exercise)
         {
 
             if (ModelState.IsValid)
             {
-                exerciseContainer.Add(exercise, workoutId, Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
+                exerciseContainer.Add(exercise, Convert.ToInt32(HttpContext.Session.GetInt32("UserId")));
+                exercise.InWorkout = false;
                 return RedirectToAction("Index");
             }
             else
             {
+                ModelState.AddModelError("Level", "Something was not filled in correctly, try again!");
                 return View();
             }
         }
 
         public ActionResult Delete(int id)
         {
-            ExerciseModel exerciseModel = exerciseContainer.GetAll(Convert.ToInt32(HttpContext.Session.GetInt32("UserId"))).Where(e => e.Id == id).FirstOrDefault();
+            ExerciseModel exerciseModel = exerciseContainer.FindById(id);
             return View(exerciseModel);
         }
 
@@ -99,6 +101,7 @@ namespace QuickfitApp.Controllers
             }
             catch
             {
+                ModelState.AddModelError("Level", "Something went wrong, try again!");
                 return View(exerciseModel);
             }
         }

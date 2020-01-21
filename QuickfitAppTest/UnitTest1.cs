@@ -58,7 +58,7 @@ namespace QuickfitAppTest
             int amountOfExercises = exerciseContainer.GetAll(1).Count;
             exerciseContainer.Delete(exercise.GetIdFromLatestExercise());
             int newAmountOfExercises = exerciseContainer.GetAll(1).Count;
-            exerciseContainer.Add(new ExerciseModel("Bench", 65, 10, null, "Beginner", false), 0, 1);
+            exerciseContainer.Add(new ExerciseModel("Bench", 65, 10, null, "Beginner", false), 1);
             Assert.Less(newAmountOfExercises, amountOfExercises);
         }
 
@@ -66,7 +66,7 @@ namespace QuickfitAppTest
         public void Add_Exercise_To_Workout()
         {
             int totalAmountOfExercises = workoutContainer.GetExercisesInWorkout(1).Count;
-            exerciseContainer.Add(new ExerciseModel("Bench", 65, 10, null, "Beginner", true), 1, 1);
+            workoutContainer.AddExerciseToWorkout(1, new ExerciseModel("Bench", 65, 10, null, "Beginner", true), 1);
             int newTotalAmountOfExercises = workoutContainer.GetExercisesInWorkout(1).Count;
             exerciseContainer.Delete(exercise.GetIdFromLatestExercise());
             Assert.Greater(newTotalAmountOfExercises, totalAmountOfExercises);

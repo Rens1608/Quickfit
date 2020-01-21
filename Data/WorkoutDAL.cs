@@ -8,6 +8,7 @@ namespace DataLayer
 {
     public class WorkoutDAL : IWorkoutContainerDAL, IWorkoutDAL
     {
+        ExerciseDAL exerciseDAL = new ExerciseDAL();
         public void Add(WorkoutModel workout, int userId, string connectionstring)
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
@@ -45,6 +46,20 @@ namespace DataLayer
                 qry.Parameters.Add("@Id", System.Data.SqlDbType.Int);
                 qry.Parameters["@Id"].Value = id;
                 qry.ExecuteNonQuery();
+            }
+        }
+
+        public void AddExerciseToWorkout(int userId, ExerciseModel exercise, int workoutId, string connectionstring)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                connection.Open();
+                exerciseDAL.Add(exercise, userId, connectionstring);
+                string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('"+ exerciseDAL.GetIdFromLatestExercise(connectionstring) +"' , @workoutId)";
+                SqlCommand exerciseWorkoutQry = new SqlCommand(exerciseWorkoutQuery, connection);
+                exerciseWorkoutQry.Parameters.Add("@workoutId", System.Data.SqlDbType.Int);
+                exerciseWorkoutQry.Parameters["@workoutId"].Value = workoutId;
+                exerciseWorkoutQry.ExecuteNonQuery();
             }
         }
 
@@ -114,7 +129,7 @@ namespace DataLayer
                 {
                     while (exerciseReader.Read())
                     {
-                        ExerciseModel tempExercise = new ExerciseModel(exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Repetitions"]), exerciseReader["Skillevel"].ToString()); 
+                        ExerciseModel tempExercise = new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]), exerciseReader["Date"].ToString(), exerciseReader["Skillevel"].ToString(), Convert.ToBoolean(exerciseReader["InWorkout"])); 
                         tempExercises.Add(tempExercise);
                     }
                     exerciseReader.Close();

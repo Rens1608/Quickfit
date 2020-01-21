@@ -45,6 +45,7 @@ namespace QuickfitApp.Controllers
             }
             catch
             {
+                ModelState.AddModelError("Password", "Something went wrong, try again!");
                 return View();
             }
         }
@@ -65,6 +66,7 @@ namespace QuickfitApp.Controllers
             }
             catch
             {
+                ModelState.AddModelError("Gender", "Something was not filled in correctly, try again!");
                 return View();
             }
         }

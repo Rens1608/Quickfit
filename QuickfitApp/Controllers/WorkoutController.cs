@@ -39,6 +39,7 @@ namespace QuickfitApp.Controllers
             }
             catch
             {
+                ModelState.AddModelError("Category", "Something went wrong, try again!");
                 return View(workout);
             }
         }
@@ -52,15 +53,16 @@ namespace QuickfitApp.Controllers
         [HttpPost]
         public ActionResult Edit(int id, string name, string skillevel, int time, string category)
         {
-            //try
-            //{
+            try
+            {
                 workout.UpdateWorkout(id, name, skillevel, time, category);
                 return RedirectToAction("Index");
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
+            }
+            catch
+            {
+                ModelState.AddModelError("Gender", "Something was not filled in correctly, try again!");
+                return View(workoutContainer.FindById(id));
+            }
         }
 
         public ActionResult Create()
@@ -78,6 +80,7 @@ namespace QuickfitApp.Controllers
             }
             else
             {
+                ModelState.AddModelError("Category", "Something was not filled in correctly, try again!");
                 return View();
             }
         }
@@ -85,6 +88,7 @@ namespace QuickfitApp.Controllers
         public ActionResult Details(int id)
         {
             var workout = workoutContainer.FindById(id);
+            TempData["WorkoutId"] = id;
             workout.Exercises = workoutContainer.GetExercisesInWorkout(id);
             return View(workout);
         }
@@ -95,16 +99,19 @@ namespace QuickfitApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddExerciseToWorkout(ExerciseModel exercise, int id)
+        public ActionResult AddExerciseToWorkout(ExerciseModel exercise)
         {
             if (ModelState.IsValid)
             {
-                int userId = Convert.ToInt32(HttpContext.Session.GetInt32("userId"));
-                exerciseContainer.Add(exercise, id, userId);
+                int userId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+                exercise.InWorkout = true;
+                int workoutId = Convert.ToInt32(TempData["WorkoutId"]);
+                workoutContainer.AddExerciseToWorkout(userId, exercise, workoutId);
                 return RedirectToAction("Index");
             }
             else
             {
+                ModelState.AddModelError("Gender", "Something was not filled in correctly, try again!");
                 return View();
             }
         }

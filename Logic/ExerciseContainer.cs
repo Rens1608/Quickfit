@@ -20,9 +20,9 @@ namespace LogicLayer
             ExerciseFactory.CreateExerciseContainerDAL().Delete(id, connectionstring);
         }
 
-        public void Add(ExerciseModel exercise, int workoutId, int userId)
+        public void Add(ExerciseModel exercise, int userId)
         {
-            ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, workoutId, userId, connectionstring);
+            ExerciseFactory.CreateExerciseContainerDAL().Add(exercise, userId, connectionstring);
         }
 
         public List<ExerciseModel> GetAll(int userId, string sortfield = "Date")

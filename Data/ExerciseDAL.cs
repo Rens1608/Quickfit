@@ -8,7 +8,7 @@ namespace DataLayer
 {
     public class ExerciseDAL : IExerciseContainerDAL, IExerciseDAL
     {
-        public void Add(ExerciseModel exercise, int workoutId, int userId, string connectionstring)
+        public void Add(ExerciseModel exercise, int userId, string connectionstring)
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
@@ -32,15 +32,6 @@ namespace DataLayer
                 userExerciseQry.Parameters.Add("@userId", System.Data.SqlDbType.Int);
                 userExerciseQry.Parameters["@userId"].Value = userId;
                 userExerciseQry.ExecuteNonQuery();
-
-                if (workoutId != 0)
-                {
-                    string exerciseWorkoutQuery = @"insert into [Exercise_Workout](ExerciseId, WorkoutId) values ('" + GetIdFromLatestExercise(connectionstring) + "' , @workoutId)";
-                    SqlCommand exerciseWorkoutQry = new SqlCommand(exerciseWorkoutQuery, connection);
-                    exerciseWorkoutQry.Parameters.Add("@workoutId", System.Data.SqlDbType.Int);
-                    exerciseWorkoutQry.Parameters["@workoutId"].Value = workoutId;
-                    exerciseWorkoutQry.ExecuteNonQuery();
-                }
             }
         }
 
@@ -133,8 +124,6 @@ namespace DataLayer
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                try
-                {
                     connection.Open();
                     SqlCommand dataCommand = new SqlCommand()
                     {
@@ -146,13 +135,8 @@ namespace DataLayer
                     using (SqlDataReader exerciseReader = dataCommand.ExecuteReader())
                     {
                         exerciseReader.Read();
-                        return new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]), exerciseReader["Date"].ToString(), exerciseReader["Skilllevel"].ToString(), Convert.ToBoolean(exerciseReader["InWorkout"]));
+                        return new ExerciseModel(Convert.ToInt32(exerciseReader["ExerciseId"]), exerciseReader["Name"].ToString(), Convert.ToInt32(exerciseReader["Weight"]), Convert.ToInt32(exerciseReader["Repetitions"]), exerciseReader["Date"].ToString(), exerciseReader["Skillevel"].ToString(), Convert.ToBoolean(exerciseReader["InWorkout"]));
                     }
-                }
-                catch
-                {
-                    return null;
-                }
             }
         }
     }
